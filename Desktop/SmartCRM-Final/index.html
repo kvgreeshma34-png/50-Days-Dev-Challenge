@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCRM - Admin Panel</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;transition:all 0.3s ease;}
+        body.light-mode{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;color:#333;}
+        body.dark-mode{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);color:#eee;}
+        body.dark-mode .card{background:#1e1e2e;color:#eee;}
+        body.dark-mode .customer-item{background:#2a2a3e;color:#eee;border-color:#444;}
+        body.dark-mode .insight-item{background:#2a2a3e;color:#eee;}
+        body.dark-mode input,body.dark-mode select,body.dark-mode textarea{background:#2a2a3e;color:#eee;border-color:#444;}
+        .container{max-width:1200px;margin:0 auto;}
+        .header{background:white;border-radius:15px;padding:20px;margin-bottom:20px;text-align:center;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;}
+        body.dark-mode .header{background:#1e1e2e;}
+        .header h1{color:#667eea;}
+        .dark-mode-toggle{background:#667eea;color:white;border:none;padding:10px 20px;border-radius:25px;cursor:pointer;}
+        .offline-badge{background:#4CAF50;color:white;display:inline-block;padding:5px 15px;border-radius:20px;font-size:12px;}
+        .card{background:white;border-radius:15px;padding:25px;margin-bottom:20px;box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+        .ai-card{background:linear-gradient(135deg,#667eea15 0%,#764ba215 100%);border-left:5px solid #764ba2;}
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin-bottom:20px;}
+        .stat-card{background:#667eea;color:white;padding:20px;border-radius:12px;text-align:center;cursor:pointer;transition:all 0.3s ease;}
+        .stat-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.2);}
+        .stat-number{font-size:32px;font-weight:bold;}
+        .stat-label{font-size:14px;margin-top:5px;}
+        .active-filter{background:#ff9800;box-shadow:0 0 0 3px rgba(255,152,0,0.3);}
+        .clear-filter-btn{background:#666;padding:8px 16px;font-size:12px;margin-left:10px;}
+        .chart-container{max-width:100%;margin:20px 0;background:#f9f9f9;border-radius:10px;padding:15px;}
+        canvas{max-height:300px;width:100%;}
+        input,select,textarea{width:100%;padding:12px;margin:8px 0;border:2px solid #e0e0e0;border-radius:8px;}
+        input[type="date"]{cursor:pointer;}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1);}
+        button{background:#667eea;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;margin:5px;}
+        button:hover{background:#764ba2;transform:translateY(-2px);}
+        .btn-danger{background:#f44336;}
+        .btn-success{background:#4CAF50;}
+        .btn-warning{background:#ff9800;}
+        .btn-excel{background:#28a745;}
+        .btn-edit{background:#2196F3;}
+        .customer-item{background:#f8f9fa;border:1px solid #ddd;border-radius:10px;padding:15px;margin-bottom:15px;}
+        .priority-critical{background:#f44336;color:white;padding:4px 12px;border-radius:20px;font-size:12px;display:inline-block;}
+        .priority-high{background:#ff9800;color:white;padding:4px 12px;border-radius:20px;font-size:12px;display:inline-block;}
+        .priority-normal{background:#4CAF50;color:white;padding:4px 12px;border-radius:20px;font-size:12px;display:inline-block;}
+        .insight-item{background:white;padding:15px;margin:12px 0;border-radius:10px;border-left:4px solid #764ba2;}
+        .history-section{margin-top:10px;padding-top:10px;border-top:1px solid #ddd;}
+        .search-box{margin-bottom:20px;display:flex;gap:10px;flex-wrap:wrap;}
+        .search-box input{flex:1;padding:12px;}
+        .action-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
+        .customer-buttons{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+        .help-text{font-size:12px;color:#666;margin-top:-5px;margin-bottom:10px;}
+        .filter-badge{background:#ff9800;color:white;padding:5px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-bottom:15px;}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;}
+        .modal-content{background:white;padding:25px;border-radius:15px;width:90%;max-width:500px;}
+        body.dark-mode .modal-content{background:#1e1e2e;}
+        .modal h3{margin-bottom:20px;}
+        .modal-buttons{display:flex;gap:10px;margin-top:20px;}
+        @media (max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);}.header{flex-direction:column;gap:10px;}.customer-buttons button{flex:1;}}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-mode">
+    <div class="container">
+        <div class="header">
+            <h1>📋 SmartCRM - Admin Panel</h1>
+            <div>
+                <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+                <div class="offline-badge" style="margin-left:10px;">📡 Offline Mode | AI Active</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card" onclick="filterBy('all')" id="statAll">
+                <div class="stat-number" id="totalCustomers">0</div>
+                <div class="stat-label">📊 Total Customers</div>
+            </div>
+            <div class="stat-card" onclick="filterBy('critical')" id="statCritical">
+                <div class="stat-number" id="criticalCount">0</div>
+                <div class="stat-label">🚨 Critical Priority</div>
+            </div>
+            <div class="stat-card" onclick="filterBy('needFollowup')" id="statFollowup">
+                <div class="stat-number" id="needFollowup">0</div>
+                <div class="stat-label">⚠️ Need Follow-up</div>
+            </div>
+            <div class="stat-card" onclick="filterBy('high')" id="statHigh">
+                <div class="stat-number" id="highCount">0</div>
+                <div class="stat-label">⚠️ High Priority</div>
+            </div>
+        </div>
+
+        <div class="card ai-card">
+            <h2>🤖 AI-Driven Insights</h2>
+            <div id="aiInsights">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Customer Analytics</h2>
+            <div class="chart-container">
+                <canvas id="healthChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>➕ Add New Customer</h2>
+            <input type="text" id="customerName" placeholder="Full Name *">
+            <input type="text" id="customerPhone" placeholder="Phone Number *">
+            <label style="font-weight:bold;margin-top:10px;display:block;">📅 Date of Birth (Password for login)</label>
+            <input type="date" id="customerDob">
+            <div class="help-text">💡 Customer will use this date as password (Format: YYYY-MM-DD)</div>
+            <select id="customerGender">
+                <option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option>
+            </select>
+            <input type="text" id="customerAddress" placeholder="Address">
+            <select id="customerPriority">
+                <option value="normal">Normal Priority</option>
+                <option value="high">⚠️ High Priority</option>
+                <option value="critical">🚨 Critical</option>
+            </select>
+            <textarea id="customerNotes" placeholder="Medical History" rows="2"></textarea>
+            <button onclick="addCustomer()" class="btn-success">💾 Save Customer</button>
+        </div>
+
+        <div class="card">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by name or phone..." onkeyup="searchCustomers()">
+                <button onclick="clearFilter()" class="clear-filter-btn" id="clearFilterBtn" style="display:none;">✖️ Clear Filter</button>
+            </div>
+            <div id="filterBadge" class="filter-badge" style="display:none;"></div>
+            <div id="customerList"></div>
+            <div class="action-buttons">
+                <button onclick="exportToExcel()" class="btn-excel">📊 Export to Excel</button>
+                <button onclick="exportData()" style="background:#2196F3;">📁 Export to JSON</button>
+                <button onclick="clearAllData()" class="btn-danger">🗑️ Clear All Data</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>✏️ Edit Customer Details</h3>
+            <input type="text" id="editName" placeholder="Full Name">
+            <input type="text" id="editPhone" placeholder="Phone Number">
+            <input type="date" id="editDob">
+            <select id="editGender">
+                <option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option>
+            </select>
+            <input type="text" id="editAddress" placeholder="Address">
+            <select id="editPriority">
+                <option value="normal">Normal</option><option value="high">⚠️ High</option><option value="critical">🚨 Critical</option>
+            </select>
+            <textarea id="editNotes" placeholder="Medical History" rows="2"></textarea>
+            <div class="modal-buttons">
+                <button onclick="saveEdit()" class="btn-success">💾 Save</button>
+                <button onclick="closeModal()" class="btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let customers = [];
+        let healthChart = null;
+        let editCustomerId = null;
+        let currentFilter = 'all';
+        function loadData() {
+    const saved = localStorage.getItem('smartcrm_customers');
+    if (saved) {
+        customers = JSON.parse(saved);
+    } else {
+        customers = [
+            {id:1,name:"John Smith",phone:"9876543210",dob:"1990-05-15",gender:"Male",address:"New York",priority:"critical",notes:"Needs regular medication",lastContact:new Date(Date.now()-10*86400000).toISOString(),checkupHistory:[]},
+            {id:2,name:"Emma Wilson",phone:"9876543211",dob:"1985-08-22",gender:"Female",address:"Los Angeles",priority:"high",notes:"Pregnancy care",lastContact:new Date(Date.now()-3*86400000).toISOString(),checkupHistory:[]},
+            {id:3,name:"Michael Brown",phone:"9876543212",dob:"1995-12-10",gender:"Male",address:"Chicago",priority:"normal",notes:"Regular checkup",lastContact:new Date(Date.now()-1*86400000).toISOString(),checkupHistory:[]},
+            {id:4,name:"Sophia Davis",phone:"9876543213",dob:"1988-03-25",gender:"Female",address:"Houston",priority:"normal",notes:"Annual checkup",lastContact:new Date(Date.now()-5*86400000).toISOString(),checkupHistory:[]},
+            {id:5,name:"James Wilson",phone:"9876543214",dob:"1975-11-30",gender:"Male",address:"Phoenix",priority:"high",notes:"Diabetes care",lastContact:new Date(Date.now()-8*86400000).toISOString(),checkupHistory:[]}
+        ];
+        saveData();
+    }
+    updateStats();
+    displayCustomers();
+    generateAI();
+    updateChart();
+}
+
+function saveData() {
+    localStorage.setItem('smartcrm_customers', JSON.stringify(customers));
+    updateStats();
+    updateChart();
+}
+
+function updateStats() {
+    let now = new Date();
+    let needFollowupCount = customers.filter(c => (now - new Date(c.lastContact)) / 86400000 > 7).length;
+    let criticalCount = customers.filter(c => c.priority === 'critical').length;
+    let highCount = customers.filter(c => c.priority === 'high').length;
+    document.getElementById('totalCustomers').innerText = customers.length;
+    document.getElementById('criticalCount').innerText = criticalCount;
+    document.getElementById('needFollowup').innerText = needFollowupCount;
+    document.getElementById('highCount').innerText = highCount;
+}
+
+function filterBy(type) {
+    currentFilter = type;
+    let filteredCustomers = [...customers];
+    let now = new Date();
+    let filterMessage = "";
+    if (type === 'critical') {
+        filteredCustomers = customers.filter(c => c.priority === 'critical');
+        filterMessage = "🚨 Showing CRITICAL PRIORITY customers only";
+    } else if (type === 'high') {
+        filteredCustomers = customers.filter(c => c.priority === 'high');
+        filterMessage = "⚠️ Showing HIGH PRIORITY customers only";
+    } else if (type === 'needFollowup') {
+        filteredCustomers = customers.filter(c => (now - new Date(c.lastContact)) / 86400000 > 7);
+        filterMessage = "⚠️ Showing customers who NEED FOLLOW-UP (7+ days no contact)";
+    } else {
+        filteredCustomers = customers;
+    }
+    document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active-filter'));
+    if (type === 'critical') document.getElementById('statCritical').classList.add('active-filter');
+    else if (type === 'high') document.getElementById('statHigh').classList.add('active-filter');
+    else if (type === 'needFollowup') document.getElementById('statFollowup').classList.add('active-filter');
+    else document.getElementById('statAll').classList.add('active-filter');
+    
+    if (type !== 'all') {
+        document.getElementById('clearFilterBtn').style.display = 'inline-block';
+        document.getElementById('filterBadge').style.display = 'inline-block';
+        document.getElementById('filterBadge').innerHTML = filterMessage + ' <span onclick="clearFilter()" style="cursor:pointer;">✖️</span>';
+    } else {
+        document.getElementById('clearFilterBtn').style.display = 'none';
+        document.getElementById('filterBadge').style.display = 'none';
+    }
+    displayCustomers(filteredCustomers);
+}
+
+function clearFilter() {
+    currentFilter = 'all';
+    displayCustomers(customers);
+    document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active-filter'));
+    document.getElementById('statAll').classList.add('active-filter');
+    document.getElementById('clearFilterBtn').style.display = 'none';
+    document.getElementById('filterBadge').style.display = 'none';
+}
+
+function addCustomer() {
+    let name = document.getElementById('customerName').value.trim();
+    let phone = document.getElementById('customerPhone').value.trim();
+    let dob = document.getElementById('customerDob').value;
+    if (!name || !phone) { alert("Please enter name and phone"); return; }
+    if (!/^\d{10}$/.test(phone)) { alert("Phone number must be exactly 10 digits"); return; }
+    customers.unshift({
+        id: Date.now(), name: name, phone: phone, dob: dob,
+        gender: document.getElementById('customerGender').value,
+        address: document.getElementById('customerAddress').value || "Not provided",
+        priority: document.getElementById('customerPriority').value,
+        notes: document.getElementById('customerNotes').value || "",
+        lastContact: new Date().toISOString(),
+        checkupHistory: [{date: new Date().toISOString(), notes: "First visit recorded"}]
+    });
+    saveData();
+    clearFilter();
+    displayCustomers();
+    generateAI();
+    document.getElementById('customerName').value = "";
+    document.getElementById('customerPhone').value = "";
+    document.getElementById('customerDob').value = "";
+    document.getElementById('customerAddress').value = "";
+    document.getElementById('customerPriority').value = "normal";
+    document.getElementById('customerNotes').value = "";
+    alert("Customer added!");
+}
+
+function deleteCustomer(id) {
+    if (confirm("Delete this customer?")) {
+        customers = customers.filter(c => c.id !== id);
+        saveData();
+        clearFilter();
+        displayCustomers();
+        generateAI();
+    }
+}
+
+function openEditModal(id) {
+    let customer = customers.find(c => c.id === id);
+    if (customer) {
+        editCustomerId = id;
+        document.getElementById('editName').value = customer.name;
+        document.getElementById('editPhone').value = customer.phone;
+        document.getElementById('editDob').value = customer.dob || "";
+        document.getElementById('editGender').value = customer.gender;
+        document.getElementById('editAddress').value = customer.address;
+        document.getElementById('editPriority').value = customer.priority;
+        document.getElementById('editNotes').value = customer.notes || "";
+        document.getElementById('editModal').style.display = 'flex';
+    }
+}
+
+function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+    editCustomerId = null;
+}
+
+function saveEdit() {
+    let index = customers.findIndex(c => c.id === editCustomerId);
+    if (index !== -1) {
+        customers[index].name = document.getElementById('editName').value.trim();
+        customers[index].phone = document.getElementById('editPhone').value.trim();
+        customers[index].dob = document.getElementById('editDob').value;
+        customers[index].gender = document.getElementById('editGender').value;
+        customers[index].address = document.getElementById('editAddress').value;
+        customers[index].priority = document.getElementById('editPriority').value;
+        customers[index].notes = document.getElementById('editNotes').value;
+        saveData();
+        clearFilter();
+        displayCustomers();
+        generateAI();
+        closeModal();
+        alert("Customer updated!");
+    }
+}
+
+function addCheckup(id) {
+    let notes = prompt("Enter checkup notes:");
+    if (notes && notes.trim()) {
+        let customer = customers.find(c => c.id === id);
+        if (customer) {
+            if (!customer.checkupHistory) customer.checkupHistory = [];
+            customer.checkupHistory.unshift({date: new Date().toISOString(), notes: notes});
+            customer.lastContact = new Date().toISOString();
+            saveData();
+            displayCustomers();
+            generateAI();
+            alert("Checkup recorded!");
+        }
+    }
+}
+
+function markContacted(id) {
+    let customer = customers.find(c => c.id === id);
+    if (customer) {
+        customer.lastContact = new Date().toISOString();
+        saveData();
+        displayCustomers();
+        generateAI();
+        alert("Contact recorded!");
+    }
+}
+
+function searchCustomers() {
+    let term = document.getElementById('searchInput').value.toLowerCase();
+    if (term === "") {
+        if (currentFilter !== 'all') filterBy(currentFilter);
+        else displayCustomers(customers);
+    } else {
+        let filtered = customers.filter(c => c.name.toLowerCase().includes(term) || c.phone.includes(term));
+        displayCustomers(filtered);
+    }
+}
+
+function calculateHealthScore(customer) {
+    let days = (new Date() - new Date(customer.lastContact)) / 86400000;
+    let score = 100;
+    if (days > 7) score -= 30;
+    else if (days > 3) score -= 15;
+    if (customer.priority === 'critical') score -= 10;
+    else if (customer.priority === 'high') score -= 5;
+    return Math.max(0, score);
+}
+
+function formatDate(dateString) {
+    let date = new Date(dateString);
+    return date.toLocaleDateString();
+}
+
+function formatDateOnly(dateString) {
+    if (!dateString) return "Not set";
+    let date = new Date(dateString);
+    return date.toLocaleDateString();
+}
+function displayCustomers(list = null) {
+            let data = list || customers;
+            let container = document.getElementById('customerList');
+            if (data.length === 0) {
+                container.innerHTML = "<div style='padding:40px;text-align:center'>No customers found</div>";
+                return;
+            }
+            container.innerHTML = data.map(c => {
+                let days = Math.floor((new Date() - new Date(c.lastContact)) / 86400000);
+                let pClass = c.priority === 'critical' ? 'priority-critical' : (c.priority === 'high' ? 'priority-high' : 'priority-normal');
+                let pText = c.priority === 'critical' ? '🚨 CRITICAL' : (c.priority === 'high' ? '⚠️ HIGH' : '✅ NORMAL');
+                let health = calculateHealthScore(c);
+                let needFollowup = days > 7;
+                let historyHtml = '';
+                if (c.checkupHistory && c.checkupHistory.length > 0) {
+                    historyHtml = '<div class="history-section"><strong>📋 Checkup History:</strong>';
+                    c.checkupHistory.slice(0, 3).forEach(h => {
+                        historyHtml += `<div style="background:#f0f0f0;padding:5px;margin:5px 0;border-radius:5px;">📅 ${formatDate(h.date)} - ${h.notes}</div>`;
+                    });
+                    if (c.checkupHistory.length > 3) {
+                        historyHtml += `<div style="font-size:12px;color:#666;">... and ${c.checkupHistory.length - 3} more</div>`;
+                    }
+                    historyHtml += '</div>';
+                }
+                return `
+                    <div class="customer-item">
+                        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
+                            <strong>${escapeHtml(c.name)}</strong>
+                            <div>
+                                <span class="${pClass}">${pText}</span>
+                                <span style="margin-left:10px;background:#667eea;color:white;padding:2px 8px;border-radius:12px;">Health: ${health}%</span>
+                                ${needFollowup ? '<span style="margin-left:10px;background:#f44336;color:white;padding:2px 8px;border-radius:12px;">⚠️ Overdue</span>' : ''}
+                            </div>
+                        </div>
+                        🎂 DOB: ${escapeHtml(formatDateOnly(c.dob))}<br>
+                        👤 ${escapeHtml(c.gender)}<br>
+                        📞 ${escapeHtml(c.phone)}<br>
+                        📍 ${escapeHtml(c.address)}<br>
+                        🕒 Last contact: ${days} days ago
+                        ${c.notes ? `<br>📝 ${escapeHtml(c.notes)}` : ""}
+                        ${historyHtml}
+                        <div class="customer-buttons">
+                            <button onclick="markContacted(${c.id})" class="btn-success">✅ Mark Contacted</button>
+                            <button onclick="addCheckup(${c.id})" class="btn-warning">📋 Add Checkup</button>
+                            <button onclick="openEditModal(${c.id})" class="btn-edit">✏️ Edit</button>
+                            <button onclick="deleteCustomer(${c.id})" class="btn-danger">🗑️ Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function generateAI() {
+            let now = new Date();
+            let needFollow = customers.filter(c => (now - new Date(c.lastContact)) / 86400000 > 7).length;
+            let critical = customers.filter(c => c.priority === 'critical').length;
+            let urgent = customers.filter(c => c.priority === 'critical' && (now - new Date(c.lastContact)) / 86400000 > 7).length;
+            let avgHealth = customers.length ? customers.reduce((s, c) => s + calculateHealthScore(c), 0) / customers.length : 100;
+            let totalCheckups = customers.reduce((sum, c) => sum + (c.checkupHistory ? c.checkupHistory.length : 0), 0);
+            let html = `<div class="insight-item">📊 Overall Health: ${Math.floor(avgHealth)}%</div>`;
+            html += `<div class="insight-item">📋 Total Checkups: ${totalCheckups}</div>`;
+            if (urgent > 0) html += `<div class="insight-item" style="border-left-color:#f44336">🚨 URGENT: ${urgent} critical customer(s) overdue! Click "Critical Priority" card above.</div>`;
+            if (needFollow > 0) html += `<div class="insight-item" style="border-left-color:#ff9800">⚠️ ${needFollow} customer(s) need follow-up. Click "Need Follow-up" card above.</div>`;
+            if (critical > 0) html += `<div class="insight-item">🚨 ${critical} critical priority customer(s).</div>`;
+            html += `<div class="insight-item">💡 <strong>Smart Filter:</strong> Click on any stat card above to filter customers!</div>`;
+            html += `<div class="insight-item">📡 Offline mode - Data saved locally</div>`;
+            document.getElementById('aiInsights').innerHTML = html;
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('healthChart').getContext('2d');
+            const priorities = ['Critical', 'High', 'Normal'];
+            const counts = [
+                customers.filter(c => c.priority === 'critical').length,
+                customers.filter(c => c.priority === 'high').length,
+                customers.filter(c => c.priority === 'normal').length
+            ];
+            if (healthChart) healthChart.destroy();
+            healthChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: priorities, datasets: [{ label: 'Number of Customers', data: counts, backgroundColor: ['#f44336', '#ff9800', '#4CAF50'], borderRadius: 10 }] },
+                options: { responsive: true }
+            });
+        }
+
+        function exportToExcel() {
+            let csv = "Name,DOB,Gender,Phone,Address,Priority,Last Contact Days,Health Score\n";
+            customers.forEach(c => {
+                let days = Math.floor((new Date() - new Date(c.lastContact)) / 86400000);
+                csv += `"${c.name}","${c.dob || ""}","${c.gender}","${c.phone}","${c.address}","${c.priority}",${days},${calculateHealthScore(c)}\n`;
+            });
+            let blob = new Blob([csv], { type: 'text/csv' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `customers_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            alert("Excel file downloaded!");
+        }
+
+        function exportData() {
+            let dataStr = JSON.stringify(customers, null, 2);
+            let blob = new Blob([dataStr], { type: 'application/json' });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = `customers_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            alert("Data exported!");
+        }
+
+        function clearAllData() {
+            if (confirm("⚠️ Delete ALL customer data? This cannot be undone!")) {
+                localStorage.removeItem('smartcrm_customers');
+                customers = [];
+                saveData();
+                clearFilter();
+                displayCustomers();
+                generateAI();
+                alert("All data cleared!");
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.body.classList.toggle('light-mode');
+            let btn = document.querySelector('.dark-mode-toggle');
+            btn.innerHTML = document.body.classList.contains('dark-mode') ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+
+        function escapeHtml(text) { 
+            if (!text) return "";
+            let div = document.createElement('div'); 
+            div.textContent = text; 
+            return div.innerHTML; 
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCRM - Customer Portal</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;}
+        .container{max-width:500px;margin:50px auto;}
+        .card{background:white;border-radius:15px;padding:30px;box-shadow:0 10px 30px rgba(0,0,0,0.2);}
+        .hidden{display:none;}
+        h2{color:#667eea;margin-bottom:20px;text-align:center;}
+        h3{color:#333;margin:20px 0 10px 0;}
+        input,textarea{width:100%;padding:12px;margin:10px 0;border:2px solid #e0e0e0;border-radius:8px;}
+        button{width:100%;background:#667eea;color:white;padding:12px;border:none;border-radius:8px;cursor:pointer;margin-top:10px;}
+        button:hover{background:#764ba2;transform:translateY(-2px);}
+        .error{color:#f44336;text-align:center;margin-top:10px;padding:10px;background:#ffebee;border-radius:8px;}
+        .success{color:#4CAF50;text-align:center;margin-top:10px;padding:10px;background:#e8f5e9;border-radius:8px;}
+        .history-item{background:#f8f9fa;padding:10px;margin:10px 0;border-radius:8px;border-left:4px solid #667eea;}
+        .logout-btn{background:#f44336;margin-top:20px;}
+        .info{background:#e8f4f8;padding:15px;border-radius:10px;margin-bottom:20px;}
+        .info p{margin:8px 0;}
+        .help-text{font-size:12px;color:#666;text-align:center;margin-top:10px;padding:8px;background:#f5f5f5;border-radius:8px;}
+    </style>
+</head>
+<body class="light-mode">
+    <div class="container">
+        <div id="loginCard" class="card">
+            <h2>🔐 Customer Login</h2>
+            <input type="text" id="loginPhone" placeholder="📞 Phone Number">
+            <input type="password" id="loginPassword" placeholder="🔑 Password (Your Date of Birth: YYYY-MM-DD)">
+            <button onclick="customerLogin()">Login</button>
+            <div id="loginError" class="error"></div>
+            <div class="help-text">💡 Your password is your Date of Birth. Example: 1990-05-15</div>
+        </div>
+
+        <div id="dashboardCard" class="card hidden">
+            <h2>👤 Welcome, <span id="customerName"></span></h2>
+            <div class="info">
+                <p><strong>📋 Your Information</strong></p>
+                <p>🎂 DOB: <span id="displayDob"></span></p>
+                <p>👤 Gender: <span id="displayGender"></span></p>
+                <p>📞 Phone: <span id="displayPhone"></span></p>
+                <p>⚠️ Priority: <span id="displayPriority"></span></p>
+            </div>
+            <h3>📝 Update Your Health Status</h3>
+            <textarea id="symptoms" rows="3" placeholder="Describe your symptoms..."></textarea>
+            <button onclick="updateSymptoms()">💾 Save Updates</button>
+            <div id="updateMsg" class="success"></div>
+            <h3>📋 Your Medical History</h3>
+            <div id="historyList"></div>
+            <button onclick="customerLogout()" class="logout-btn">🚪 Logout</button>
+        </div>
+    </div>
+
+    <script>
+        function getAllCustomers(){
+            let data=localStorage.getItem('smartcrm_customers');
+            return data?JSON.parse(data):[];
+        }
+        function saveAllCustomers(customers){
+            localStorage.setItem('smartcrm_customers',JSON.stringify(customers));
+        }
+        let currentCustomer=null;
+        function customerLogin() {
+            let phone = document.getElementById('loginPhone').value.trim();
+            let password = document.getElementById('loginPassword').value.trim();
+            let customers = getAllCustomers();
+            if (!/^\d{10}$/.test(phone)) { document.getElementById('loginError').innerHTML = "❌ Phone number must be exactly 10 digits"; return; }
+            if (!phone || !password) {
+                document.getElementById('loginError').innerHTML="❌ Please enter both phone and password";
+                return;
+            }
+            let customer=customers.find(c=>c.phone===phone);
+            if(!customer){
+                document.getElementById('loginError').innerHTML="❌ Phone number not found";
+                return;
+            }
+            if(customer.dob!==password){
+                document.getElementById('loginError').innerHTML="❌ Incorrect password. Use your Date of Birth (YYYY-MM-DD)";
+                return;
+            }
+            currentCustomer=customer;
+            localStorage.setItem('loggedInCustomer',JSON.stringify(customer));
+            showDashboard();
+            document.getElementById('loginError').innerHTML="";
+        }
+        function showDashboard(){
+            document.getElementById('loginCard').classList.add('hidden');
+            document.getElementById('dashboardCard').classList.remove('hidden');
+            document.getElementById('customerName').innerText=currentCustomer.name;
+            document.getElementById('displayDob').innerText=currentCustomer.dob||"Not set";
+            document.getElementById('displayGender').innerText=currentCustomer.gender||"Not specified";
+            document.getElementById('displayPhone').innerText=currentCustomer.phone;
+            document.getElementById('displayPriority').innerText=currentCustomer.priority.toUpperCase();
+            document.getElementById('symptoms').value=currentCustomer.notes||"";
+            loadHistory();
+        }
+        function loadHistory(){
+            let historyDiv=document.getElementById('historyList');
+            if(currentCustomer.checkupHistory&&currentCustomer.checkupHistory.length>0){
+                historyDiv.innerHTML=currentCustomer.checkupHistory.map(h=>{
+                    let date=new Date(h.date).toLocaleDateString();
+                    return `<div class="history-item"><strong>📅 ${date}</strong><br>${escapeHtml(h.notes)}</div>`;
+                }).join('');
+            }else{
+                historyDiv.innerHTML='<div class="history-item">📭 No medical history yet</div>';
+            }
+        }
+        function updateSymptoms(){
+            let symptoms=document.getElementById('symptoms').value;
+            let customers=getAllCustomers();
+            let index=customers.findIndex(c=>c.id===currentCustomer.id);
+            if(index!==-1){
+                customers[index].notes=symptoms;
+                currentCustomer.notes=symptoms;
+                saveAllCustomers(customers);
+                localStorage.setItem('loggedInCustomer',JSON.stringify(currentCustomer));
+                document.getElementById('updateMsg').innerHTML="✅ Updated!";
+                setTimeout(()=>{document.getElementById('updateMsg').innerHTML="";},3000);
+            }
+        }
+        function customerLogout(){
+            localStorage.removeItem('loggedInCustomer');
+            currentCustomer=null;
+            document.getElementById('loginCard').classList.remove('hidden');
+            document.getElementById('dashboardCard').classList.add('hidden');
+            document.getElementById('loginPhone').value="";
+            document.getElementById('loginPassword').value="";
+            document.getElementById('loginError').innerHTML="";
+        }
+        function escapeHtml(text){
+            if(!text) return "";
+            let div=document.createElement('div');
+            div.textContent=text;
+            return div.innerHTML;
+        }
+        let savedCustomer=localStorage.getItem('loggedInCustomer');
+        if(savedCustomer){
+            currentCustomer=JSON.parse(savedCustomer);
+            showDashboard();
+        }
+    </script>
+</body>
+</html>
