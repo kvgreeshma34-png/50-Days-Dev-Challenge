@@ -1,0 +1,35 @@
+/* ==========================================
+   1. SETUP CSS VARIABLES (CUSTOM PROPERTIES)
+   ========================================== */
+:root {
+  --primary-color: #4b6cb7; /* Beautiful blue brand color */
+  --text-color: #2c3e50;    /* Dark slate charcoal for great readability */
+  --bg-color: #f5f7fa;      /* Light background color */
+}
+
+/* ==========================================
+   2. THE UNIVERSAL RESET & BOX-SIZING CONTROL
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Includes border and padding inside the element's total width/height */
+}
+
+/* ==========================================
+   3. STYLE THE BODY ELEMENT
+   ========================================== */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean, modern font */
+  color: var(--text-color);                                   /* Using your custom variable */
+  background-color: var(--bg-color);
+  line-height: 1.6;                                           /* Improves reading spacing */
+}
+
+/* ==========================================
+   4. BONUS CHALLENGE: STYLE HERO SECTION H1
+   ========================================== */
+h1 {
+  color: var(--primary-color); /* Apply brand color variable */
+  margin-bottom: 20px;         /* Push subtext/elements below it down */
+}
