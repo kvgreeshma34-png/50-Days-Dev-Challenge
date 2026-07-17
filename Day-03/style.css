@@ -1,0 +1,72 @@
+/* ==========================================
+   MODULE 1: REUSABLE CORE SETTINGS (Day 2)
+   ========================================== */
+:root {
+  --primary-color: #4b6cb7;
+  --text-color: #2c3e50;
+  --bg-color: #f5f7fa;
+  --accent-color: #e74c3c; /* Added a sharp accent color for links */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+}
+
+/* ==========================================
+   MODULE 2: NAVIGATION FLEXBOX ARCHITECTURE
+   ========================================== */
+nav {
+  display: flex;
+  justify-content: space-between; /* Pushes logo to left, list to right */
+  align-items: center;            /* Perfectly centers them vertically */
+  padding: 20px 40px;             /* Clean breathing room on the edges */
+  background-color: #ffffff;      /* Solid white bar background */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Soft, subtle structural separation */
+}
+
+nav ul {
+  display: flex;
+  gap: 25px;                      /* Clean, uniform mathematical spacing */
+  list-style: none;               /* Destroys the old-school bullet points */
+}
+
+/* ⭐ BONUS CHALLENGE: INTERACTIVE NAVIGATION LINKS */
+nav ul li a {
+  text-decoration: none;          /* Removes ugly browser underlines */
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.3s ease;    /* Smooth color fade animation */
+}
+
+nav ul li a:hover {
+  color: var(--primary-color);    /* Shifts to brand blue on user hover */
+}
+
+/* ==========================================
+   MODULE 3: HERO SECTION VERTICAL CENTERING
+   ========================================== */
+header + section, 
+.hero-section { /* Targets your Hero section container */
+  display: flex;
+  flex-direction: column;         /* Swaps main axis: children stack vertically */
+  justify-content: center;        /* Centers items along the vertical axis */
+  align-items: center;            /* Centers items along the horizontal axis */
+  min-height: 70vh;               /* Forces section to span 70% of screen height */
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero-section h1 {
+  color: var(--primary-color);
+  margin-bottom: 20px;            /* Predictable spacing pushing layout down */
+  font-size: 2.5rem;
+}
