@@ -1,0 +1,347 @@
+/* ==========================================================================
+   1. UNIVERSAL RESET & CREATIVE BACKGROUND
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    color: #1e293b;
+    
+    /* The Aurora Glow Magic (Vibrant & High-Tech) */
+    background-color: #f3f4f6; 
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),  
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0px, transparent 50%); 
+    background-attachment: fixed;
+}
+
+/* ==========================================================================
+   2. FROSTED GLASS NAVBAR STYLING
+   ========================================================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 8%;
+    background: rgba(255, 255, 255, 0.75); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+}
+
+.nav-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+}
+
+.logo-accent {
+    color: #6366f1;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #6366f1;
+}
+
+/* ==========================================================================
+   3. MODERN CENTERED HERO SECTION STYLING
+   ========================================================================== */
+.hero-container {
+    max-width: 800px; /* Perfectly balanced width for centered minimalist text */
+    margin: 130px auto 30px auto; 
+    padding: 60px 20px;
+    text-align: center; /* Balanced center layout without the terminal graphic */
+}
+
+.tech-badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.08);
+    color: #4f46e5;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.hero-content h1 {
+    font-size: 3.2rem;
+    color: #0f172a;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center; /* Centers the uniform buttons */
+}
+
+/* Premium Uniform Button Architecture */
+.btn-primary, .btn-secondary {
+    text-decoration: none;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover state for both hero buttons */
+.btn-primary:hover, .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+}
+
+/* ==========================================================================
+   4. STRUCTURED CONTENT WRAPPER & INFORMATION CARDS
+   ========================================================================== */
+.main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px 20px;
+}
+
+.info-card-section {
+    margin-bottom: 50px;
+    scroll-margin-top: 100px; 
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.info-card-body {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    line-height: 1.6;
+    font-size: 1.05rem;
+    color: #475569;
+}
+
+.feature-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.feature-link {
+    display: inline-block;
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+}
+
+.feature-link span {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.feature-link:hover span {
+    transform: translateX(4px);
+}
+
+/* ==========================================================================
+   5. CORE TEAM GRID & PROFILE CARDS (IMAGE SIZE FIX INSIDE)
+   ========================================================================== */
+.team-section {
+    margin-top: 60px;
+    scroll-margin-top: 100px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
+    gap: 25px; 
+    margin-top: 25px; 
+}
+
+.profile-card {
+    background-color: #ffffff;
+    padding: 28px 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03); 
+    text-align: center; 
+    overflow: hidden;   
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+}
+
+/* 🎯 BRINGING BACK THE IMAGE SIZE FIX: Prevents large images */
+.profile-card img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover; /* Crops image inside the box perfectly without stretching */
+    border-radius: 50%; /* Forms perfect circle profiles */
+    border: 4px solid #f1f5f9; 
+    margin-bottom: 20px;
+}
+
+.profile-card h3 {
+    font-size: 1.2rem;
+    color: #0f172a; 
+    margin-bottom: 6px;
+    font-weight: 700; 
+}
+
+.profile-card p {
+    font-size: 0.9rem;
+    color: #64748b; 
+    margin-bottom: 24px;
+}
+
+/* 🎯 LINKEDIN BUTTON STYLE: Upgraded to look cohesive with the website theme */
+.profile-card a {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #4f46e5; /* Premium Indigo instead of standard LinkedIn blue */
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* LinkedIn Button Hover State */
+.profile-card a:hover {
+    background-color: #3730a3; /* Smooth darker indigo glow on hover */
+    transform: scale(1.02); 
+}
+
+/* Card Hover Elevation Effect */
+.profile-card:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.02); 
+}
+
+/* ==========================================================================
+   6. SITE FOOTER STYLING
+   ========================================================================== */
+.site-footer {
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    padding: 30px 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.footer-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #64748b;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #4f46e5;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 900px) {
+    .hero-container {
+        margin-top: 110px;
+        padding: 40px 20px;
+    }
+    .hero-content h1 {
+        font-size: 2.6rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 15px 4%;
+    }
+    .nav-links {
+        gap: 15px;
+    }
+    .site-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
