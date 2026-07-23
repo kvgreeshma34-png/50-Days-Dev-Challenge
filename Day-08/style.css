@@ -1,0 +1,793 @@
+/* ==========================================================================
+   VARIABLE DICTIONARY ENGINE (LIGHT & DARK ACCENTS)
+   ========================================================================== */
+:root {
+    --bg-body: #f3f4f6;
+    --bg-card: #ffffff;
+    --bg-info-card: rgba(255, 255, 255, 0.7);
+    --navbar-bg: rgba(255, 255, 255, 0.75);
+    --navbar-border: rgba(255, 255, 255, 0.4);
+    
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+
+    --text-main: #475569;
+    --text-title: #0f172a;
+    --text-muted: #64748b;
+    --border-light: #e2e8f0;
+
+    --glow-indigo: rgba(99, 102, 241, 0.12);
+    --glow-cyan: rgba(6, 182, 212, 0.12);
+}
+
+body.dark-mode {
+    --bg-body: #0f172a;       
+    --bg-card: #1e293b;       
+    --bg-info-card: rgba(30, 41, 59, 0.7);
+    --navbar-bg: rgba(15, 23, 42, 0.8);
+    --navbar-border: rgba(51, 65, 85, 0.5);
+    
+    --primary-color: #818cf8;
+    --primary-hover: #6366f1;
+
+    --text-main: #cbd5e1;     
+    --text-title: #f8fafc;    
+    --text-muted: #94a3b8;
+    --border-light: #334155;  
+
+    --glow-indigo: rgba(99, 102, 241, 0.25);
+    --glow-cyan: rgba(6, 182, 212, 0.25);
+}
+
+/* ==========================================================================
+   1. UNIVERSAL RESET & CREATIVE BACKGROUND
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    color: var(--text-main);
+    background-color: var(--bg-body); 
+    background-image: 
+        radial-gradient(at 0% 0%, var(--glow-indigo) 0px, transparent 50%),  
+        radial-gradient(at 100% 100%, var(--glow-cyan) 0px, transparent 50%); 
+    background-attachment: fixed;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   NEW FEATURE 1: TOP ANNOUNCEMENT BANNER
+   ========================================================================== */
+.announcement-banner {
+    background: linear-gradient(90deg, var(--primary-hover), var(--primary-color));
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1001;
+}
+
+.banner-btn {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.banner-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateX(3px);
+}
+
+/* ==========================================================================
+   2. FROSTED GLASS NAVBAR STYLING
+   ========================================================================== */
+.navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 8%;
+    background: var(--navbar-bg); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--navbar-border);
+    z-index: 1000;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-title);
+    letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+.logo-accent {
+    color: var(--primary-color);
+}
+
+.nav-right-group {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary-color);
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.2) rotate(12deg);
+}
+
+/* ==========================================================================
+   3. MODERN CENTERED HERO SECTION STYLING
+   ========================================================================== */
+.hero-container {
+    max-width: 800px; 
+    margin: 60px auto 30px auto; 
+    padding: 40px 20px;
+    text-align: center; 
+}
+
+.hero-content h1 {
+    font-size: clamp(2.2rem, 5vw + 1rem, 3.6rem);
+    color: var(--text-title);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.tech-badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--primary-color);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 35px;
+    transition: color 0.3s ease;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center; 
+}
+
+.btn-primary, .btn-secondary {
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--text-title);
+    border: 1px solid var(--border-light);
+    box-shadow: none;
+}
+
+/* ==========================================================================
+   4. STRUCTURED CONTENT WRAPPER & GENERAL INFO BODIES
+   ========================================================================== */
+.main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 60px 20px;
+}
+
+.info-card-section {
+    margin-bottom: 50px;
+    scroll-margin-top: 100px; 
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: var(--text-title);
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+.info-card-body {
+    background: var(--bg-info-card);
+    backdrop-filter: blur(8px);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    line-height: 1.6;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   5. CSS GRID ARCHITECTURE (INITIATIVES)
+   ========================================================================== */
+.initiatives-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;                             
+}
+
+.initiative-card {
+    background-color: var(--bg-card); 
+    border-top: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    border-left: 4px solid var(--primary-color); 
+    border-bottom: 4px solid var(--primary-color);
+    padding: 35px 30px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease;
+}
+
+.initiative-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+}
+
+.initiative-card h3 {
+    margin-bottom: 12px;
+    color: var(--text-title);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.initiative-card p {
+    color: var(--text-main);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   NEW FEATURE 2: INTERACTIVE FAQ ACCORDION SECTION
+   ========================================================================== */
+.faq-container {
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.faq-item {
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    padding: 16px 20px;
+    background-color: var(--bg-card);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 12px var(--glow-indigo);
+}
+
+.faq-item summary {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-title);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-icon {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    margin-top: 12px;
+    color: var(--text-main);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   6. CORE TEAM GRID & PROFILE CARDS
+   ========================================================================== */
+.team-section {
+    margin-top: 60px;
+    scroll-margin-top: 100px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
+    gap: 25px; 
+}
+
+.profile-card {
+    background-color: var(--bg-card);
+    padding: 28px 20px;
+    border-radius: 12px; 
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03); 
+    text-align: center; 
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.3s ease; 
+}
+
+.profile-card:hover {
+    transform: translateY(-6px); 
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12); 
+}
+
+.profile-card img {
+    width: 130px;
+    height: 130px;
+    object-fit: cover; 
+    border-radius: 50%; 
+    border: 4px solid var(--bg-body); 
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.profile-card h3 {
+    font-size: 1.2rem;
+    color: var(--text-title); 
+    margin-bottom: 6px;
+    font-weight: 700; 
+}
+
+.profile-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted); 
+    margin-bottom: 24px;
+}
+
+.profile-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap; 
+}
+
+.profile-buttons a, .explore-mentor-btn, .btn-link {
+    display: inline-block;
+    text-decoration: none;
+    background-color: var(--primary-hover); 
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-buttons a:hover, .explore-mentor-btn:hover, .btn-link:hover {
+    background-color: var(--primary-color); 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.profile-buttons a:active, .explore-mentor-btn:active, .card:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ==========================================================================
+   7. INTERACTIVE MODAL COMPONENT
+   ========================================================================== */
+.modal-backdrop {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-backdrop.active {
+    display: flex;
+}
+
+.modal-content-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    max-width: 650px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    color: var(--primary-color);
+}
+
+.modal-content-box h2 {
+    color: var(--text-title);
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.modal-content-box h4 {
+    color: var(--primary-color);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.modal-domain-block {
+    background: rgba(99, 102, 241, 0.05);
+    border-left: 4px solid var(--primary-color);
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 25px;
+}
+
+.modal-domain-block strong, .modal-skills-block strong {
+    display: block;
+    color: var(--text-title);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+.modal-domain-block p {
+    color: var(--text-main);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.modal-skills-block ul {
+    list-style: none;
+}
+
+.modal-skills-block li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.modal-skills-block li::before {
+    content: "⚡";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   DAY 07: MEMBERSHIP FORM & INTERACTIVE STATES
+   ========================================================================== */
+.join-community {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+.join-community h2 {
+    font-size: 1.8rem;
+    color: var(--text-title);
+    margin-bottom: 8px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.join-community p {
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+.membership-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-title);
+}
+
+.form-group label .required {
+    color: #ef4444;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-title);
+    background-color: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.2s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    background-color: var(--bg-card);
+}
+
+.form-group input:not(:placeholder-shown):invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.form-group input:not(:placeholder-shown):valid {
+    border-color: #10b981;
+}
+
+.btn-submit {
+    margin-top: 10px;
+    width: 100%;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+}
+
+.btn-submit:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.btn-submit:disabled {
+    background: var(--border-light);
+    color: var(--text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+    opacity: 0.6;
+}
+
+/* ==========================================================================
+   8. SITE FOOTER & FLOATING BADGES
+   ========================================================================== */
+.site-footer {
+    max-width: 1100px;
+    margin: 40px auto 0 auto;
+    padding: 30px 20px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.footer-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-hover);
+}
+
+.screen-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tablet-text, .mobile-text { display: none; }
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   9. CONSOLIDATED RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 900px) {
+    .initiatives-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .hero-container {
+        margin-top: 30px;
+        padding: 40px 20px;
+    }
+    .desktop-text { display: none; }
+    .tablet-text { display: inline; }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 15px 4%;
+    }
+    .nav-links {
+        display: none;
+    }
+    .initiatives-grid {
+        grid-template-columns: 1fr;
+    }
+    .site-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .tablet-text { display: none; }
+    .mobile-text { display: inline; }
+}
