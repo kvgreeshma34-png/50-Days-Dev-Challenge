@@ -94,4 +94,4 @@ window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
         modal.classList.remove('active');
     }
-});
+});  
