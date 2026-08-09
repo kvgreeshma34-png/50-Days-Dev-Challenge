@@ -1,0 +1,1653 @@
+/* --------------------------------------------------------------------------
+   1. CSS CUSTOM PROPERTIES (THEME VARIABLES)
+   -------------------------------------------------------------------------- */
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #334155;
+    --border-color: #cbd5e1;
+    --banner-bg: linear-gradient(135deg, #4f46e5, #7c3aed);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.15);
+    --transition-speed: 0.3s;
+    --bg-color: var(--bg-main);
+    --text-color: var(--text-main);
+    --card-bg: var(--bg-card);
+}
+ 
+body.dark-mode {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #e2e8f0;
+    --border-color: #334155;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4);
+    --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
+    --bg-color: var(--bg-main);
+    --text-color: var(--text-main);
+    --card-bg: var(--bg-card);
+}
+
+/* --------------------------------------------------------------------------
+   2. GLOBAL RESETS & BASE STYLES
+   -------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   3. ACCESSIBILITY (A11Y) STANDARDS
+   -------------------------------------------------------------------------- */
+.skip-link {
+    position: absolute;
+    top: -60px;
+    left: 10px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 0 0 8px 8px;
+    z-index: 9999;
+    transition: top 0.3s ease;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: var(--shadow-lg);
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+:focus-visible {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 3px;
+}
+
+main:focus {
+    outline: none;
+}
+
+/* Mobile Menu Trigger Button (Hidden on Desktop) */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 1.4rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.menu-toggle:hover {
+    background-color: var(--border-color);
+}
+/* --------------------------------------------------------------------------
+   4. ANNOUNCEMENT BANNER & NAVIGATION
+   -------------------------------------------------------------------------- */
+.announcement-banner {
+    background: var(--banner-bg);
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.banner-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s ease;
+}
+
+.banner-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.nav-logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.logo-accent {
+    color: var(--primary-color);
+}
+
+.nav-right-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s ease, border-bottom 0.2s ease;
+    padding: 4px 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+body.dark-mode .nav-links a {
+    color: var(--text-muted);
+}
+
+body.dark-mode .nav-links a:hover,
+body.dark-mode .nav-links a.active {
+    color: #ffffff;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.theme-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 1.2rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.08);
+    background-color: var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+   5. UNBOXED HERO HEADER
+   -------------------------------------------------------------------------- */
+.hero-container {
+    padding: 60px 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 850px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.tech-badge {
+    display: inline-block;
+    background-color: rgba(79, 70, 229, 0.1);
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-content h1 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary-color), #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin: 0 auto 32px;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-card);
+    border-color: var(--primary-color);
+}
+
+/* --------------------------------------------------------------------------
+   6. SECTION DIVIDER LINES
+   -------------------------------------------------------------------------- */
+.section-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--border-color);
+    max-width: 1000px;
+    margin: 40px auto;
+    opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
+   7. MAIN SECTIONS & CARDS
+   -------------------------------------------------------------------------- */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px 40px;
+}
+
+.info-card-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    text-align: center;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: -4px;
+    margin-bottom: 30px;
+    font-size: 1.05rem;
+}
+
+.info-card-body {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* --------------------------------------------------------------------------
+   8. TEAM & MENTOR GRIDS
+   -------------------------------------------------------------------------- */
+.team-section {
+    margin-bottom: 40px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.profile-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.profile-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.profile-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.profile-card p.role-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.profile-buttons .btn-primary {
+    padding: 8px 16px;
+    font-size: 0.88rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. INITIATIVES GRID
+   -------------------------------------------------------------------------- */
+.initiatives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.initiative-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.initiative-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.initiative-card h3 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.initiative-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------------
+   10. INTERACTIVE FAQ ACCORDION
+   -------------------------------------------------------------------------- */
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 800px;
+    margin: 25px auto 0;
+}
+
+.faq-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.2s ease;
+}
+
+.faq-item[open] {
+    border-color: var(--primary-color);
+}
+
+.faq-item summary {
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-icon {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-item p {
+    margin-top: 12px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   11. MEMBERSHIP APPLICATION FORM CARD
+   -------------------------------------------------------------------------- */
+.join-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px 30px;
+    max-width: 650px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-md);
+}
+
+.membership-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.required {
+    color: #ef4444;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+}
+
+.btn-submit {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-hover);
+}
+
+/* --------------------------------------------------------------------------
+   12. DYNAMIC POPUP MODAL
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content-box {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 550px;
+    width: 100%;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.modal-content-box h2 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+}
+
+.modal-content-box h3 {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.modal-domain-block,
+.modal-skills-block {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.modal-skills-block ul {
+    margin-top: 8px;
+    padding-left: 20px;
+}
+
+.modal-skills-block li {
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.modal-footer-action {
+    margin-top: 20px;
+    text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   13. FOOTER & SCREEN INDICATOR
+   -------------------------------------------------------------------------- */
+.site-footer {
+    background-color: var(--bg-card);
+    padding: 30px 5%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+.screen-indicator {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+}
+
+.tablet-text, .mobile-text { display: none; }
+
+/* --------------------------------------------------------------------------
+   15. DAY 12: RESPONSIVE MOBILE NAVIGATION STYLES
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .desktop-text { display: none; }
+    .tablet-text { display: inline; }
+
+    .navbar {
+        flex-wrap: wrap;
+        padding: 15px 4%;
+    }
+
+    /* Reveal hamburger toggle on tablet/mobile */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Hide navigation links by default on small screens */
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 0 5px;
+        border-top: 1px solid var(--border-color);
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    /* Active State injected via JavaScript */
+    .nav-links.nav-active {
+        display: flex;
+        animation: fadeIn 0.3s ease-in-out forwards;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .tablet-text { display: none; }
+    .mobile-text { display: inline; }
+    .hero-card h1 { font-size: 2rem; }
+    .hero-card { padding: 30px 20px; }
+    .nav-links { flex-wrap: wrap; justify-content: center; }
+}
+
+/* --------------------------------------------------------------------------
+   14. DAY 11: DYNAMIC DOM ANIMATIONS & ACTIVE STATES
+   -------------------------------------------------------------------------- */
+.active-state {
+    color: var(--primary-color) !important;
+    transition: color 0.3s ease, transform 0.3s ease;
+    transform: scale(1.02);
+}
+
+/* --------------------------------------------------------------------------
+   DAY 13: CLIENT-SIDE FORM VALIDATION STYLES
+   -------------------------------------------------------------------------- */
+.input-error {
+    border-color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.05);
+}
+
+.error-text {
+    color: #ef4444;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    display: block;
+    font-weight: 500;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.form-success-banner {
+    background-color: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    color: #10b981;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* --------------------------------------------------------------------------
+   17. DAY 14: DYNAMIC DOM RENDERING & STATUS STYLES
+   -------------------------------------------------------------------------- */
+.initiative-card {
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 12px;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.initiative-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Active State: Green Border & Subtle Glow */
+.initiative-card.status-active {
+    border-color: #10b981;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
+}
+
+/* Completed State: Gray Border */
+.initiative-card.status-completed {
+    border-color: #9ca3af;
+}
+
+/* Text Adjustments for High Readability */
+.initiative-card h3 {
+    margin-bottom: 10px;
+}
+
+.initiative-card p {
+    margin-bottom: 18px;
+    opacity: 0.85;
+    line-height: 1.5;
+}
+
+/* Badges */
+.card-status-badge {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Active Badge Colors */
+.status-active .card-status-badge {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #059669;
+}
+
+/* Completed Badge Colors */
+.status-completed .card-status-badge {
+    background-color: rgba(156, 163, 175, 0.2);
+    color: #4b5563;
+}
+
+/* Dark Mode Support (if dark mode is active) */
+body.dark-mode .status-active .card-status-badge {
+    color: #34d399;
+}
+
+body.dark-mode .status-completed .card-status-badge {
+    color: #d1d5db;
+}
+
+/* --------------------------------------------------------------------------
+   18. DAY 15: REAL-TIME SEARCH & EMPTY STATE STYLES
+   -------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+   18. DAY 15: REAL-TIME SEARCH, HIGHLIGHTING & CLEAR BUTTON STYLES
+   -------------------------------------------------------------------------- */
+.search-container {
+    margin-bottom: 28px;
+    width: 100%;
+    max-width: 520px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#search-projects {
+    width: 100%;
+    padding: 12px 42px 12px 18px; /* Extra right padding for the cross button */
+    font-size: 0.95rem;
+    border-radius: 10px;
+    border: 2px solid var(--border-color, #ccc);
+    background-color: var(--card-bg, #ffffff);
+    color: var(--text-main, #222);
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#search-projects:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* Cross (Clear) Button Inside Search Bar */
+.clear-search-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--text-muted, #888);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 50%;
+    display: none; /* Controlled via JS */
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.clear-search-btn:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.12);
+}
+
+.clear-search-btn.show {
+    display: block;
+}
+
+/* Search Term Highlighting Tag */
+mark.highlight {
+    background-color: rgba(16, 185, 129, 0.25);
+    color: inherit;
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+/* Empty Search State Styling */
+.no-results-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    background-color: rgba(156, 163, 175, 0.08);
+    border: 1px dashed var(--border-color, #ccc);
+    border-radius: 12px;
+    color: var(--text-muted, #666);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ========================================== */
+/* DAY 16: DRAFT AUTO-SAVE INDICATOR STYLES   */
+/* ========================================== */
+.draft-status-indicator {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #10b981;
+  margin-top: 8px;
+  margin-left: 8px;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.draft-status-indicator.visible {
+  opacity: 1;
+}
+
+/* ========================================== */
+/* DAY 17: THEME ENGINEERING (CSS VARIABLES)  */
+/* ========================================== */
+
+/* Smooth Background & Text Transition */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode .section-title,
+body.dark-mode .section-heading {
+  color: #60a5fa !important;
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode .subtitle {
+  color: #e2e8f0 !important;
+}
+
+/* ========================================== */
+/* DAY 18: TESTIMONIAL CAROUSEL STYLES        */
+/* ========================================== */
+.testimonials-section {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.testimonial-card {
+  background-color: var(--card-bg, #f8f9fa);
+  border: 1px solid var(--border-color, #eaeaea);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 1.5rem auto 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.testimonial-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary-color, #0056b3);
+  font-size: 1.25rem;
+  transition: opacity 0.15s ease;
+}
+
+.testimonial-card p {
+  font-style: italic;
+  color: var(--text-color, #333333);
+  line-height: 1.6;
+  min-height: 60px;
+  transition: opacity 0.15s ease;
+}
+
+.carousel-controls {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.carousel-btn {
+  background-color: var(--primary-color, #0056b3);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.carousel-btn:hover {
+  transform: scale(1.1);
+  opacity: 0.9;
+}
+
+/* ========================================== */
+/* FIX: LINK HARDCODED CONTAINERS TO VARIABLES */
+/* ========================================== */
+header, 
+nav, 
+.navbar {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+
+/* Ensure all cards, boxes, and white sections adapt to dark mode */
+.card, 
+.mission-card, 
+.info-box, 
+div[class*="card"] {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+
+/* Ensure all text headings adapt */
+h1, h2, h3, h4, h5, h6, p, span {
+  color: var(--text-main);
+}
+
+/* ========================================== */
+/* EXACT RESTORATION OF DAY-08 HERO LOOK      */
+/* ========================================== */
+
+/* 1. Remove box card, borders, and restore full-width seamless layout */
+.hero-section {
+  width: 100% !important;
+  max-width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 3.5rem 1rem 2.5rem 1rem !important;
+  text-align: center !important;
+}
+
+/* 2. Bold title typography */
+.hero-section h1 {
+  font-size: 2.8rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
+  margin: 1.2rem 0 !important;
+  color: #0f172a !important;
+}
+
+/* 3. Blue to Cyan gradient on "Next Generation" */
+.hero-section h1 span,
+.gradient-text {
+  background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block !important;
+}
+
+/* 4. Narrow paragraph to wrap neatly into 3 lines with proper button gap */
+.hero-section p,
+.hero-subtitle {
+  max-width: 580px !important; /* Forces 3 balanced lines */
+  margin: 0 auto 2.5rem auto !important; /* 2.5rem gap above buttons */
+  font-size: 1rem !important;
+  color: #475569 !important;
+  line-height: 1.6 !important;
+}
+
+/* 5. Dark Mode adaptation for full page text & heading */
+body.dark-mode .hero-section h1 {
+  color: #f8fafc !important;
+}
+
+body.dark-mode .hero-section p,
+body.dark-mode .hero-subtitle {
+  color: #94a3b8 !important;
+}
+
+/* ========================================== */
+/* DAY 19: MODAL UI STYLES                    */
+/* ========================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: var(--bg-card, #ffffff);
+  color: var(--text-main, #0f172a);
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  animation: modalPopIn 0.2s ease-out;
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--text-muted, #64748b);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #ef4444;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  line-height: 1.6;
+  color: var(--text-muted, #475569);
+}
+
+/* Dark Mode Support */
+body.dark-mode .modal-content {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+body.dark-mode .modal-body {
+  color: #cbd5e1;
+}
+
+/* Styling for the View Details button */
+.view-btn {
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.view-btn:hover {
+  background-color: #4338ca;
+  transform: translateY(-1px);
+}
+
+.view-btn:active {
+  transform: translateY(0);
+}
+
+/* ========================================== */
+/* DAY 20: TASK TRACKER STYLES                */
+/* ========================================== */
+
+.task-tracker-section {
+  max-width: 600px;
+  margin: 2.5rem auto;
+  padding: 1.5rem;
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.task-tracker-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main, #0f172a);
+}
+
+.task-input-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.task-input-group input {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-color, #cbd5e1);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: var(--bg-main, #ffffff);
+  color: var(--text-main, #0f172a);
+  transition: border-color 0.2s;
+}
+
+.task-input-group input:focus {
+  border-color: #4f46e5;
+}
+
+.task-input-group button {
+  padding: 0.65rem 1.25rem;
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.task-input-group button:hover {
+  background-color: #4338ca;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: var(--bg-main, #f8fafc);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.task-item span {
+  flex: 1;
+  margin: 0 0.75rem;
+  font-size: 0.95rem;
+  color: var(--text-main, #1e293b);
+  word-break: break-word;
+}
+
+.task-item.done span {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.toggle-check {
+  width: 1.15rem;
+  height: 1.15rem;
+  cursor: pointer;
+  accent-color: #4f46e5;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+/* Dark Mode Support */
+body.dark-mode .task-tracker-section {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+body.dark-mode .task-input-group input {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+body.dark-mode .task-item {
+  background-color: #0f172a;
+  border-color: #334155;
+}
+
+body.dark-mode .task-item span {
+  color: #f1f5f9;
+}
+
+body.dark-mode .task-item.done span {
+  color: #64748b;
+}
+
+/* Modal Backdrop Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Modal Content Box */
+.modal-card {
+    position: relative;
+    background: #ffffff;
+    width: 90%;
+    max-width: 560px;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-20px);
+    transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal-card {
+    transform: translateY(0);
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    font-size: 1.75rem;
+    color: #64748b;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.close-modal-btn:hover {
+    color: #0f172a;
+}
+
+.modal-tech-tag {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+/* Container for search input & floating clear button */
+.search-input-wrapper {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem; /* Extra right padding so text doesn't overlap the 'X' */
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-input-wrapper input:focus {
+    border-color: #10b981;
+}
+
+/* Floating Cross ('X') Button */
+.clear-search-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #94a3b8;
+    cursor: pointer;
+    display: none; /* Hidden by default when input is empty */
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+.clear-search-btn:hover {
+    color: #0f172a;
+    background-color: #f1f5f9;
+}
+
+/* ========================================== */
+/* DAY 22: INTERSECTION OBSERVER ANIMATIONS   */
+/* ========================================== */
+
+/* Initial hidden state (Pushed down & invisible) */
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: opacity, transform;
+}
+
+/* Revealed state (Injected via JS Observer) */
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Respect user preferences for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .hidden {
+        transition: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ========================================== */
+/* DAY 23: KANBAN BOARD & DRAG AND DROP CSS   */
+/* ========================================== */
+
+.kanban-section {
+    margin: 2.5rem 0;
+}
+
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.kanban-column {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.kanban-column h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 0.5rem;
+}
+
+.kanban-column .task-list {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.25rem;
+}
+
+.task-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    color: #334155;
+    font-weight: 500;
+    font-size: 0.92rem;
+    cursor: grab;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    user-select: none;
+}
+
+.task-card:hover {
+    border-color: #10b981;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.task-card:active {
+    cursor: grabbing;
+}
+
+/* State when item is actively being dragged */
+.task-card.is-dragging {
+    opacity: 0.4;
+    transform: scale(0.98);
+    border: 2px dashed #10b981;
+}
+
+/* Dynamic Task Count Badge */
+.column-count {
+    display: inline-block;
+    background: #e2e8f0;
+    color: #059669;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+/* Active Drop-Zone Glow Effect */
+.kanban-column.drag-over {
+    border: 2px dashed #10b981 !important;
+    background-color: #f0fdf4 !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+}
+
+/* ========================================== */
+/* DAY 24: SINGLE PAGE APPLICATION (SPA) STYLES*/
+/* ========================================== */
+
+#app-root {
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.spa-view {
+    animation: fadeInRoute 0.4s ease-out forwards;
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@keyframes fadeInRoute {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.spa-404-container {
+    text-align: center;
+    padding: 5rem 1rem;
+    background: var(--card-bg, #ffffff);
+    border-radius: 12px;
+    border: 1px solid var(--border-color, #e2e8f0);
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.spa-404-title {
+    font-size: 5rem;
+    font-weight: 800;
+    color: #ef4444;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.spa-404-subtitle {
+    font-size: 1.5rem;
+    color: var(--text-color, #1e293b);
+    margin-bottom: 1rem;
+}
+
+.spa-404-text {
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+.nav-links a.active {
+    border-bottom: 2px solid var(--primary-color, #2563eb);
+    font-weight: 600;
+}
