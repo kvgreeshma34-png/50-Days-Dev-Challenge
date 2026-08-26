@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ========================================== */
 
 (function initSPARouter() {
-    // 1. SPA Route Definitions
+    // 1. SPA Route Definitions (All navbar routes defined)
     const spaRoutes = {
         404: `
             <div class="spa-view spa-404-container">
@@ -332,15 +332,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 <a href="/" class="btn-primary nav-link" style="text-decoration: none; padding: 0.75rem 1.5rem; display: inline-block;">Return Home</a>
             </div>
         `,
+        "/about": `
+            <section class="spa-view">
+                <h2 class="section-title">About Synexus Core</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Peer-to-peer engineering community building production-grade applications.</p>
+            </section>
+        `,
+        "/mentors": `
+            <section class="spa-view">
+                <h2 class="section-title">Engineering Mentors</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Learn directly from senior student leads and industry advisors.</p>
+            </section>
+        `,
+        "/initiatives": `
+            <section class="spa-view">
+                <h2 class="section-title">Community Initiatives</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Explore our active open-source projects and developer pipelines.</p>
+            </section>
+        `,
         "/kanban": `
             <section class="spa-view">
-                <h2 class="section-title">Project Kanban Board View</h2>
-                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">SPA Route: Active Sprint Kanban Board</p>
+                <h2 class="section-title">Project Kanban Board</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Active Sprint Kanban Board & Task Pipelines.</p>
+            </section>
+        `,
+        "/faq": `
+            <section class="spa-view">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Find answers regarding membership, stack focus, and team roles.</p>
+            </section>
+        `,
+        "/team": `
+            <section class="spa-view">
+                <h2 class="section-title">Team Synergia</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Meet the core committee driving developer initiatives.</p>
+            </section>
+        `,
+        "/join": `
+            <section class="spa-view">
+                <h2 class="section-title">Join Synexus Core</h2>
+                <p style="text-align: center; color: #64748b; margin-bottom: 2rem;">Submit your membership application to start building with us.</p>
             </section>
         `
     };
 
-    // 2. Normalize Current Browser Path (Supports GitHub Pages sub-folders)
+    // 2. Normalize Current Browser Path
     function getCleanPath() {
         let path = window.location.pathname;
         if (path.includes('/50-Days-Dev-Challenge')) {
@@ -363,28 +399,31 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update Nav Active State Indicators
         document.querySelectorAll('.nav-link').forEach(link => {
             const href = link.getAttribute('href');
-            if (href === currentPath || (currentPath === '/' && href === '#home')) {
+            if (href === currentPath || (currentPath === '/' && href === '/')) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
             }
         });
 
-        // Check for dedicated SPA dynamic views
-        if (spaRoutes[currentPath]) {
-            if (appRoot) appRoot.innerHTML = spaRoutes[currentPath];
-            // Hide static multi-section content when on dedicated SPA routes like /kanban
-            toggleStaticSections(false);
-        } else if (currentPath === '/' || currentPath.startsWith('#')) {
+        // Home Route: Render static sections
+        if (currentPath === '/') {
             if (appRoot) appRoot.innerHTML = '';
             toggleStaticSections(true);
-        } else {
+        } 
+        // Dynamic Routes: Render matching view and hide home static sections
+        else if (spaRoutes[currentPath]) {
+            if (appRoot) appRoot.innerHTML = spaRoutes[currentPath];
+            toggleStaticSections(false);
+        } 
+        // Fallback: 404 Route
+        else {
             if (appRoot) appRoot.innerHTML = spaRoutes[404];
             toggleStaticSections(false);
         }
     }
 
-    // Helper: Toggle visibility of original landing page sections for dedicated SPA routes
+    // Helper: Toggle visibility of landing page static sections
     function toggleStaticSections(visible) {
         const sections = document.querySelectorAll('.main-content > section, .main-content > hr');
         sections.forEach(sec => {
@@ -399,8 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const targetHref = link.getAttribute('href');
 
-        // Handle path routes via History API pushState
-        if (targetHref && !targetHref.startsWith('#')) {
+        if (targetHref && !targetHref.startsWith('#') && !targetHref.startsWith('http')) {
             e.preventDefault();
             window.history.pushState({}, '', targetHref);
             renderRoute();
