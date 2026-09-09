@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initToastSystem();
     initDataForm();
     initDashboardStreams();
+    initDashboardCarousel();
     initCacheExport();
     initServiceWorker();
 
@@ -112,6 +113,22 @@ function initDataForm() {
             } catch (err) {
                 showToast('Failed to save to database.');
             }
+        });
+    }
+}
+
+function initDashboardCarousel() {
+    const gridContainer = document.getElementById('dashboard-grid-container');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
+
+    if (gridContainer && prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => {
+            gridContainer.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            gridContainer.scrollBy({ left: 300, behavior: 'smooth' });
         });
     }
 }
