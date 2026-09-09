@@ -2,30 +2,32 @@
    1. CSS CUSTOM PROPERTIES (THEME VARIABLES)
    -------------------------------------------------------------------------- */
 :root {
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
     --bg-main: #f8fafc;
     --bg-card: #ffffff;
     --text-main: #0f172a;
-    --text-muted: #334155;
-    --border-color: #cbd5e1;
-    --banner-bg: linear-gradient(135deg, #4f46e5, #7c3aed);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --text-muted: #64748b;
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.15);
     --transition-speed: 0.3s;
     --bg-color: #ffffff;
     --text-color: #0f172a;
     --card-bg: #f8fafc;
+    --banner-bg: linear-gradient(135deg, #4f46e5, #7c3aed);
 }
  
-body.dark-mode {
+body.dark-mode, [data-theme="dark"] {
     --bg-main: #0f172a;
     --bg-card: #1e293b;
     --text-main: #f8fafc;
-    --text-muted: #e2e8f0;
+    --text-muted: #94a3b8;
     --border-color: #334155;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.4);
     --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
     --bg-color: #0f172a;
@@ -47,10 +49,12 @@ html {
 }
 
 body {
-    margin: 0;
-    background-color: #f9fafb;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: var(--text-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     transition: background-color 0.3s ease, color 0.3s ease;
     line-height: 1.6;
 }
@@ -165,7 +169,6 @@ main:focus {
     display: flex;
     list-style: none;
     gap: 20px;
-    align-items: center;
 }
 
 .nav-links a {
@@ -183,19 +186,15 @@ main:focus {
     border-bottom: 2px solid var(--primary-color);
 }
 
-.highlight-nav {
-    color: var(--primary-color) !important;
-    background: rgba(79, 70, 229, 0.08);
-    padding: 4px 8px !important;
-    border-radius: 6px;
-}
-
-body.dark-mode .nav-links a {
+body.dark-mode .nav-links a,
+[data-theme="dark"] .nav-links a {
     color: var(--text-muted);
 }
 
 body.dark-mode .nav-links a:hover,
-body.dark-mode .nav-links a.active {
+body.dark-mode .nav-links a.active,
+[data-theme="dark"] .nav-links a:hover,
+[data-theme="dark"] .nav-links a.active {
     color: #ffffff;
     border-bottom: 2px solid var(--primary-color);
 }
@@ -217,8 +216,28 @@ body.dark-mode .nav-links a.active {
 }
 
 /* --------------------------------------------------------------------------
-   5. UNBOXED HERO HEADER
+   5. UNBOXED HERO HEADER & SPA CONTAINERS
    -------------------------------------------------------------------------- */
+.spa-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.section-pane {
+    display: none;
+}
+
+.section-pane.active-pane {
+    display: block;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
 .hero-container {
     padding: 60px 20px 20px;
     display: flex;
@@ -237,11 +256,11 @@ body.dark-mode .nav-links a.active {
     display: inline-block;
     background-color: rgba(79, 70, 229, 0.1);
     color: var(--primary-color);
-    font-weight: 700;
     font-size: 0.85rem;
-    padding: 6px 16px;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
     border-radius: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -352,11 +371,12 @@ body.dark-mode .nav-links a.active {
     font-size: 1.05rem;
 }
 
+.card,
 .info-card-body {
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    padding: 25px;
     border-radius: 12px;
+    padding: 2rem;
     box-shadow: var(--shadow-sm);
 }
 
@@ -688,8 +708,19 @@ body.dark-mode .nav-links a.active {
 .tablet-text, .mobile-text { display: none; }
 
 /* --------------------------------------------------------------------------
-   14. RESPONSIVE MOBILE NAVIGATION STYLES
+   14. RESPONSIVE MOBILE NAVIGATION STYLES & ANIMATIONS
    -------------------------------------------------------------------------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @media (max-width: 900px) {
     .desktop-text { display: none; }
     .tablet-text { display: inline; }
@@ -717,17 +748,6 @@ body.dark-mode .nav-links a.active {
     .nav-links.nav-active {
         display: flex;
         animation: fadeIn 0.3s ease-in-out forwards;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
 
@@ -875,4 +895,175 @@ mark.highlight {
 .task-card.is-dragging {
     opacity: 0.4;
     transform: scale(0.98);
-} 
+}
+
+/* --------------------------------------------------------------------------
+   18. MODAL WINDOWS & WEBSOCKET TERMINAL
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-card {
+    position: relative;
+    background: var(--bg-card);
+    color: var(--text-main);
+    width: 90%;
+    max-width: 560px;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+.websocket-terminal-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.ws-terminal-output {
+    background: #0f172a;
+    color: #38bdf8;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-radius: 8px;
+    height: 180px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    border: 1px solid #334155;
+}
+
+.ws-input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.ws-input-group input[type="text"] {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    background: var(--bg-main);
+    color: var(--text-main);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.d-none {
+    display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   19. TESTIMONIALS, ROADMAP TASK TRACKER & LOOKUP COMPONENTS
+   -------------------------------------------------------------------------- */
+.testimonial-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.testimonial-card h3 {
+    font-size: 1.2rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.testimonial-card p {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 1.05rem;
+}
+
+.carousel-controls {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.carousel-btn {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.carousel-btn:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+.task-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.task-input-group input[type="text"],
+.search-box-group input[type="text"] {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.task-input-group input[type="text"]:focus,
+.search-box-group input[type="text"]:focus {
+    border-color: var(--primary-color);
+}
+
+.search-box-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.status-msg {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   20. WEB COMPONENTS & DYNAMIC GRID FIXES
+   -------------------------------------------------------------------------- */
+#components-pane .info-card-section .card > div[style*="grid"],
+.web-components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+}
+
+synexus-card {
+    display: block;
+    height: 100%;
+}
