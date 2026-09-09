@@ -248,6 +248,7 @@ body.dark-mode .nav-links a.active {
 
 .gradient-text {
     background: linear-gradient(135deg, var(--primary-color), #9333ea);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
