@@ -1,4 +1,49 @@
-<!-- Dashboard View -->
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synexus Core | Supabase Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-logo">Synexus<span class="logo-accent">Core</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
+                <li><a href="#dashboard" class="nav-link active" data-target="dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">🌓</button>
+        </div>
+    </header>
+
+    <main id="app-root" class="spa-container">
+        <!-- Home View -->
+        <section id="home" class="section-pane">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <span class="tech-badge">Supabase Cloud Platform</span>
+                    <h1>Production-Ready <span class="gradient-text">Single Page App</span></h1>
+                    <p>Engineered with a Supabase PostgreSQL backend, Web Components, IndexedDB caching, and Offline capabilities.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary" id="open-modal-btn">Open System Modal</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; display: grid; gap: 20px;">
+                <user-card name="K V Greeshma" role="Lead Core Architect" status="Online & Synced"></user-card>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <data-feed></data-feed>
+            </div>
+        </section>
+
+        <!-- Dashboard View -->
         <section id="dashboard" class="section-pane active-pane">
             <div class="dashboard-header" style="margin-bottom: 24px;">
                 <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">Welcome to Dev Dashboard 👋</h1>
@@ -6,7 +51,7 @@
             </div>
 
             <!-- Dashboard Grid Container with Carousel Navigation -->
-            <div class="dashboard-wrapper" style="position: relative; display: flex; align-items: center;">
+            <div class="dashboard-wrapper">
                 <button id="carousel-prev" class="carousel-arrow left-arrow" aria-label="Previous">❮</button>
                 
                 <div class="dashboard-grid" id="dashboard-grid-container">
@@ -64,7 +109,7 @@
                 <button id="carousel-next" class="carousel-arrow right-arrow" aria-label="Next">❯</button>
             </div>
 
-            <!-- Database Input Form Card from earlier -->
+            <!-- Database Input Form Card -->
             <div class="card" style="margin-top: 30px;">
                 <h2 class="section-title" style="font-size: 1.4rem;">Database Input Center</h2>
                 <p class="section-subtitle" style="margin-bottom: 16px;">Submit custom activity logs directly to your Supabase PostgreSQL table.</p>
@@ -77,4 +122,37 @@
                     <button type="submit" class="btn-primary" style="margin-top: 10px;">Store in Database</button>
                 </form>
             </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h2 class="section-title">Operations Dashboard</h2>
+                <p class="section-subtitle" style="margin-bottom: 20px;">Live analytics, resilient data streams, and cloud synchronization.</p>
+                
+                <button class="btn-primary" id="load-streams-btn" style="margin-bottom: 20px;">Fetch Live Data Streams</button>
+                
+                <div id="dashboard-content" style="color: var(--text-muted);">
+                    <p>Click the button above to test concurrent API streams with retry error handling.</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3 class="section-title" style="font-size: 1.5rem;">Local Database & Memory</h3>
+                <p class="section-subtitle" style="margin-bottom: 16px;">Export cached IndexedDB data securely.</p>
+                <button class="btn-primary" id="export-cache-btn" style="background-color: #059669;">Export Cache to JSON</button>
+            </div>
         </section>
+    </main>
+
+    <custom-modal id="system-modal">
+        <h3 slot="title">System Notification</h3>
+        <p slot="content">Supabase PostgreSQL cloud persistence active, Service Worker registered, and components fully mounted!</p>
+    </custom-modal>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 SynexusCore Platform. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
